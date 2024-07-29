@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style>
+    body {
+      font-family: "Feeling Lovely";
+      text-align: center;
+      background-image: url("fondo.jpg");
+      background-size: cover;
+      background-position: center;
+    }
+
+   .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+   .gallery img,.gallery video {
+      width: 50vw;
+      height: 90vh;
+      object-fit: cover;
+      margin: 0;
+      border: none;
+      border-radius: 0;
+    }
+
+    #carta {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100vh;
+      margin: auto;
+    }
+
+   .button-prev,.button-next {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+      background-color: rgba(214, 183, 3, 0.5);
+      color: #383636;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      opacity: 0.5;
+    }
+
+   .button-prev:hover,.button-next:hover {
+      opacity: 0.8;
+    }
+
+   .button-prev {
+      left: 10px;
+    }
+
+   .button-next {
+      right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1></h1>
+  <div class="gallery">
+    <img id="carta" src="carta.png" alt="Carta" style="display: block;">
+    <video id="video1" alt="Video 1" style="display: none;"></video>
+    <video id="video2" alt="Video 2" style="display: none;"></video>
+    <img id="image" src="image1.jpg" alt="Imagen 1" style="display: none;">
+  </div>
+
+  <button class="button-prev" onclick="previousImage()">‹</button>
+  <button class="button-next" onclick="nextImage()">›</button>
+
+  <audio id="background-audio" src="song.mp3" autoplay loop></audio>
+
+  <script>
+    let currentImage = 1;
+    let totalImages = 23;
+    let totalVideos = 2;
+
+    function previousImage() {
+      if (currentImage > 1) {
+        currentImage--;
+        changeImage(currentImage);
+      }
+    }
+
+    function nextImage() {
+      if (currentImage < totalImages + totalVideos) {
+        currentImage++;
+        changeImage(currentImage);
+      }
+    }
+
+    function changeImage(imageNumber) {
+      const carta = document.getElementById("carta");
+      const image = document.getElementById("image");
+      const video1 = document.getElementById("video1");
+      const video2 = document.getElementById("video2");
+
+      if (imageNumber == 1) {
+        carta.style.display = "block";
+        video1.style.display = "none";
+        video2.style.display = "none";
+        image.style.display = "none";
+      } else if (imageNumber == 2) {
+        const videoSrc = "video1.mp4";
+        carta.style.display = "none";
+        video1.src = "";
+        video1.srcObject = null;
+        video1.src = videoSrc;
+        video1.play();
+        video1.style.display = "block";
+        video2.style.display = "none";
+        image.style.display = "none";
+      } else if (imageNumber == 3) {
+        const videoSrc = "video2.mp4";
+        carta.style.display = "none";
+        video2.src = "";
+        video2.srcObject = null;
+        video2.src = videoSrc;
+        video2.play();
+        video1.style.display = "none";
+        video2.style.display = "block";
+        image.style.display = "none";
+      } else {
+        carta.style.display = "none";
+        image.src = `image${imageNumber - 3}.jpg`;
+        image.style.display = "block";
+        video1.style.display = "none";
+        video2.style.display = "none";
+      }
+    }
+
+    // Inicializar la galería con la carta
+    changeImage(1);
+  </script>
+</body>
+</html>
